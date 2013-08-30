@@ -13,15 +13,17 @@ public class Field extends JFrame {
 	
 	private PressButton[][] button;	
 	private State turn;
+	private JLabel label;
 		
 	public Field() throws Exception{
 		turn = State.XX;
 		button = new PressButton[3][3];
+		label = new JLabel("X turn.");
 	}
 	
 	public void showField() throws Exception{
 				
-		setLayout(new GridLayout(3,3));
+		setLayout(new GridLayout(4,3));
 		
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++) {
@@ -34,6 +36,11 @@ public class Field extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						boolean wasPressed = ((PressButton)e.getSource()).wasPressed();
 						((PressButton)e.getSource()).setButton(turn);
+						
+						if (turn == State.XX)
+							label.setText("O turn.");
+						else label.setText("X turn.");
+						
 						if (checkWinner()) {
 							if(turn == State.XX)
 								JOptionPane.showMessageDialog(null, "Player X wins!");
@@ -44,6 +51,7 @@ public class Field extends JFrame {
 							JOptionPane.showMessageDialog(null, "Draw!");	
 							end();
 						}
+						
 						if (!wasPressed)
 							switchTurn(turn);
 						
@@ -52,9 +60,12 @@ public class Field extends JFrame {
 				
 			}
 		
+        
+		add(label);
+		
 		setTitle("TicTacToe");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    setSize(200, 200);
+	    setSize(200, 245);
 	    setVisible(true);		
 		
 	}
